@@ -40,14 +40,14 @@
 2. Aws SSM
 3. ReadAI
 
-## Want a quick hands on ? (demo video)
+## Want a quick hands on ? 
 
 <br>
 
 [![w1](https://github.com/user-attachments/assets/e449d585-6156-4b3b-8867-81849678defd)](https://plato-topaz.vercel.app/)
 <br>
 
-## End-to-End Demonstration
+## End-to-End Demonstration (demo video)
 
 <br>
 
