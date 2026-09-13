@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Plato — AI Support Agent</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: #0a0a0f;
+  color: #e0e0e0;
+  width: 1280px;
+  height: 720px;
+  overflow: hidden;
+}
+
+#app {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+#left-panel {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #2a2a3a;
+  background: #0f0f1a;
+}
+
+#right-panel {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #0a0a0f;
+}
+
+.panel-header {
+  padding: 12px 16px;
+  background: #151520;
+  border-bottom: 1px solid #2a2a3a;
+  font-size: 0.75em;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #888;
+  font-weight: 600;
+}
+
+#status-bar {
+  padding: 16px;
+  text-align: center;
+  border-bottom: 1px solid #2a2a3a;
+}
+
+#logo {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: white;
+}
+
+#status-text {
+  font-size: 0.9em;
+  color: #667eea;
+  margin-bottom: 8px;
+}
+
+.chips {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.chip {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.7em;
+  font-weight: 500;
+}
+
+.chip.connected { background: #10b981; color: white; }
+.chip.disconnected { background: #374151; color: #9ca3af; }
+.chip.connecting { background: #f59e0b; color: white; }
+
+#context-banner {
+  padding: 8px 16px;
+  background: #1a1a2e;
+  border-bottom: 1px solid #2a2a3a;
+  font-size: 0.75em;
+  color: #6b7280;
+  min-height: 32px;
+}
+
+#context-banner.has-history {
+  color: #9ca3af;
+  border-left: 3px solid #667eea;
+}
+
+#conversation {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.message {
+  display: flex;
+  gap: 12px;
+  max-width: 85%;
+  animation: fadeIn 0.3s ease;
+}
+
+.message.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.message.agent {
+  align-self: flex-start;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.message.user .avatar {
+  background: #4a9eff;
+  color: white;
+}
+
+.message.agent .avatar {
+  background: #10b981;
+  color: white;
+}
+
+.bubble {
+  padding: 12px 16px;
+  border-radius: 12px;
+  line-height: 1.6;
+  font-size: 14px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.message.user .bubble {
+  background: #1e3a5f;
+  border-bottom-right-radius: 4px;
+}
+
+.message.agent .bubble {
+  background: #1a1a1a;
+  border-bottom-left-radius: 4px;
+}
+
+.reasoning-block {
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: rgba(245, 158, 11, 0.05);
+  border-left: 2px solid #f59e0b;
+  border-radius: 4px;
+}
+
+.reasoning-header {
+  font-size: 11px;
+  color: #f59e0b;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+
+.reasoning-content {
+  font-size: 13px;
+  color: #999;
+  line-height: 1.7;
+}
+
+.reasoning-step {
+  padding: 4px 0;
+  padding-left: 12px;
+  position: relative;
+}
+
+.reasoning-step::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #f59e0b;
+}
+
+.reasoning-step:last-child {
+  padding-bottom: 0;
+}
+
+.approval-card {
+  background: rgba(245, 158, 11, 0.15);
+  border: 2px solid #f59e0b;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 12px 0;
+  animation: fadeIn 0.3s ease;
+}
+
+.approval-title {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #fbbf24;
+  margin-bottom: 12px;
+}
+
+.approval-action {
+  font-size: 1em;
+  color: #e0e0e0;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.approval-consequence {
+  font-size: 0.9em;
+  color: #9ca3af;
+  margin-bottom: 8px;
+  padding-left: 12px;
+  border-left: 2px solid #6b7280;
+}
+
+.approval-recommendation {
+  font-size: 0.9em;
+  color: #10b981;
+  margin-top: 12px;
+  font-weight: 500;
+}
+
+#commands {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+  font-size: 0.85em;
+}
+
+.cmd-block {
+  margin-bottom: 16px;
+  background: #151520;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.cmd-header {
+  padding: 8px 12px;
+  background: #1a1a2e;
+  border-bottom: 1px solid #2a2a3a;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cmd-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.cmd-status-dot.running { background: #f59e0b; animation: pulse 1.5s infinite; }
+.cmd-status-dot.success { background: #10b981; }
+.cmd-status-dot.failed { background: #ef4444; }
+.cmd-status-dot.escalation { background: #f59e0b; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.cmd-line {
+  color: #e0e0e0;
+  font-weight: 600;
+  flex: 1;
+}
+
+.cmd-line::before {
+  content: "$ ";
+  color: #6b7280;
+}
+
+.cmd-output {
+  padding: 12px;
+  color: #d1d5db;
+  white-space: pre-wrap;
+  word-break: break-all;
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+.cmd-footer {
+  padding: 6px 12px;
+  font-size: 0.75em;
+  color: #6b7280;
+  border-top: 1px solid #2a2a3a;
+}
+
+.cmd-footer.success { color: #10b981; }
+.cmd-footer.failed { color: #ef4444; }
+.cmd-footer.running { color: #f59e0b; }
+
+.pulse { animation: pulse 1.5s infinite; }
+</style>
+</head>
+<body>
+
+<div id="app">
+  <div id="left-panel">
+    <div id="status-bar">
+      <div id="logo">D</div>
+      <div id="status-text">Initializing...</div>
+      <div class="chips">
+        <span class="chip disconnected" id="geminiChip">Gemini: Off</span>
+        <span class="chip disconnected" id="micChip">Mic: Off</span>
+        <span class="chip disconnected" id="meetingChip">Audio: Off</span>
+      </div>
+    </div>
+    <div id="context-banner">No previous sessions</div>
+    <div class="panel-header">Conversation</div>
+    <div id="conversation"></div>
+  </div>
+
+  <div id="right-panel">
+    <div class="panel-header">Command Execution</div>
+    <div id="commands"></div>
+  </div>
+</div>
+
+<script>
+let ws = null;
+let audioContext = null;
+let mediaStream = null;
+let workletNode = null;
+let playerWorklet = null;
+let playerContext = null;
+let isConnected = false;
+let isReceiving = false;
+let currentAgentMessage = null;
+let currentUserMessage = null;
+
+const urlParams = new URLSearchParams(window.location.search);
+const AGENT_ID = urlParams.get('agent') || 'unknown';
+const GRANT_ID = urlParams.get('grant') || '';
+const BACKEND_URL = window.location.origin;
+
+let SYSTEM_PROMPT = `You are Plato , an AI support agent in a live Google Meet call with a customer. You are PROACTIVE and CONVERSATIONAL.
+
+CRITICAL - IMMEDIATE GREETING:
+- As soon as the conversation starts, IMMEDIATELY greet the customer with a warm introduction
+- Do NOT wait for the user to speak first - you must speak first
+- Say: "Hi, I'm Plato. I can see you're dealing with [issue]. Let me help you with that."
+- Then ask if they can provide more details about the issue
+
+YOUR BEHAVIOR:
+1. Greet the customer warmly and introduce yourself IMMEDIATELY when the conversation starts
+2. If you have context about their issue, acknowledge it: "I see you're having issues with X"
+3. Ask the customer for more details about the issue
+4. Once you understand the issue, explain your investigation plan in plain language
+5. Use delegate_task to execute commands, but KEEP TALKING while it runs
+6. As commands execute, narrate what's happening: "I'm checking the CPU usage now..."
+7. When results come back, explain what you found and what you'll do next
+8. Ask the customer if they have questions or if the solution makes sense
+9. When complete, use revoke_access to end the session
+
+CRITICAL - STAY PROACTIVE:
+- Never go silent. Keep explaining what you're doing
+- Don't wait for the customer to ask questions - anticipate them
+- Explain technical findings in plain language
+- If a command fails, explain what went wrong and what you'll try next
+- Treat this like a real conversation, not a command line
+
+CONTEXT AWARENESS:
+- You may receive task context BEFORE the call starts
+- If you have it, use it to greet intelligently
+- If not, ask the customer what they need help with
+
+Available tools:
+- delegate_task(task_description): Send work to execution agent. Explain what you're doing BEFORE calling this.
+- revoke_access(reason): End the session when everything is resolved
+
+Rules:
+- Keep responses conversational and natural
+- No emojis, no markdown, no bullet points in speech
+- Be professional, empathetic, and helpful
+- The working directory is /home/ubuntu`;
+
+const TOOL_DEFS = [
+  {
+    name: "delegate_task",
+    description: "Send a task to the execution agent. The agent will plan, execute commands, and return results. Use this when the customer asks you to do something.",
+    parameters: {
+      type: "object",
+      properties: {
+        task_description: { type: "string", description: "Clear description of what needs to be done" },
+      },
+      required: ["task_description"],
+    },
+  },
+  {
+    name: "revoke_access",
+    description: "End the support session and revoke access",
+    parameters: {
+      type: "object",
+      properties: {
+        reason: { type: "string", description: "Reason for ending" },
+      },
+    },
+  },
+];
+
+const statusEl = document.getElementById("status-text");
+const conversationEl = document.getElementById("conversation");
+const commandsEl = document.getElementById("commands");
+const geminiChip = document.getElementById("geminiChip");
+const micChip = document.getElementById("micChip");
+const meetingChip = document.getElementById("meetingChip");
+const contextBanner = document.getElementById("context-banner");
+
+function setStatus(msg) { statusEl.textContent = msg; }
+
+function addConversation(text, type, reasoning = null) {
+  const chat = conversationEl;
+  
+  // Check if we're streaming and should append to existing message
+  if (type === 'agent' && currentAgentMessage && !reasoning) {
+    currentAgentMessage.textContent += text;
+    chat.scrollTop = chat.scrollHeight;
+    return;
+  }
+  
+  if (type === 'user' && currentUserMessage) {
+    currentUserMessage.textContent += text;
+    chat.scrollTop = chat.scrollHeight;
+    return;
+  }
+  
+  // Create new message
+  const msg = document.createElement('div');
+  msg.className = `message ${type}`;
+  
+  const avatar = document.createElement('div');
+  avatar.className = 'avatar';
+  avatar.textContent = type === 'user' ? 'U' : 'A';
+  
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  bubble.textContent = text;
+  
+  if (reasoning) {
+    const reasoningBlock = document.createElement('div');
+    reasoningBlock.className = 'reasoning-block';
+    
+    const header = document.createElement('div');
+    header.className = 'reasoning-header';
+    header.textContent = 'Reasoning Steps';
+    
+    const content = document.createElement('div');
+    content.className = 'reasoning-content';
+    
+    reasoning.forEach(step => {
+      const stepDiv = document.createElement('div');
+      stepDiv.className = 'reasoning-step';
+      stepDiv.textContent = step;
+      content.appendChild(stepDiv);
+    });
+    
+    reasoningBlock.appendChild(header);
+    reasoningBlock.appendChild(content);
+    bubble.appendChild(reasoningBlock);
+  }
+  
+  msg.appendChild(avatar);
+  msg.appendChild(bubble);
+  chat.appendChild(msg);
+  chat.scrollTop = chat.scrollHeight;
+  
+  // Track current streaming message
+  if (type === 'agent' && !reasoning) {
+    currentAgentMessage = bubble;
+  } else if (type === 'user') {
+    currentUserMessage = bubble;
+  }
+}
+
+function updateLastAssistantMessage(text) {
+  // Legacy function - now handled by streaming in addConversation
+  if (currentAgentMessage) {
+    currentAgentMessage.textContent = text;
+  } else {
+    addConversation(text, 'agent');
+  }
+  conversationEl.scrollTop = conversationEl.scrollHeight;
+}
+
+function addCommandBlock(command, status) {
+  const block = document.createElement("div");
+  block.className = "cmd-block";
+  block.id = `cmd-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+  const header = document.createElement("div");
+  header.className = "cmd-header";
+  
+  const dot = document.createElement("div");
+  dot.className = `cmd-status-dot ${status}`;
+  header.appendChild(dot);
+
+  const cmdLine = document.createElement("div");
+  cmdLine.className = "cmd-line";
+  cmdLine.textContent = command;
+  header.appendChild(cmdLine);
+
+  block.appendChild(header);
+
+  const footer = document.createElement("div");
+  footer.className = `cmd-footer ${status}`;
+  footer.textContent = status === 'running' ? 'Executing...' : status;
+  block.appendChild(footer);
+
+  commandsEl.appendChild(block);
+  commandsEl.scrollTop = commandsEl.scrollHeight;
+  return block.id;
+}
+
+function updateCommandBlock(blockId, output, status) {
+  const block = document.getElementById(blockId);
+  if (!block) return;
+
+  const existingOutput = block.querySelector('.cmd-output');
+  if (existingOutput) existingOutput.remove();
+
+  if (output) {
+    const outputEl = document.createElement("div");
+    outputEl.className = "cmd-output";
+    outputEl.textContent = output;
+    block.insertBefore(outputEl, block.lastElementChild);
+  }
+
+  const dot = block.querySelector('.cmd-status-dot');
+  if (dot) dot.className = `cmd-status-dot ${status}`;
+
+  const footer = block.querySelector('.cmd-footer');
+  if (footer) {
+    footer.className = `cmd-footer ${status}`;
+    footer.textContent = status === 'success' ? 'Completed' : status === 'failed' ? 'Failed' : status;
+  }
+
+  commandsEl.scrollTop = commandsEl.scrollHeight;
+}
+
+function arrayBufferToBase64(buffer) {
+  const bytes = new Uint8Array(buffer);
+  let binary = "";
+  for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
+  return btoa(binary);
+}
+
+function setChip(el, state, label) {
+  el.className = `chip ${state}`;
+  el.textContent = label;
+}
+
+async function getMeetingAudio() {
+  try {
+    setStatus("Getting meeting audio...");
+    setChip(meetingChip, "connecting", "Audio: Connecting...");
+    mediaStream = await navigator.mediaDevices.getUserMedia({
+      audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true },
+      video: false,
+    });
+    setChip(meetingChip, "connected", "Audio: On");
+    addConversation("[Meeting audio connected]", "agent");
+    return true;
+  } catch (e) {
+    console.error("getUserMedia error:", e);
+    setChip(meetingChip, "disconnected", "Audio: Failed");
+    addConversation(`Audio error: ${e.message}`, "agent");
+    return false;
+  }
+}
+
+async function initPlayer() {
+  if (playerContext) return;
+  playerContext = new AudioContext({ sampleRate: 24000 });
+  await playerContext.audioWorklet.addModule("audio-processors/playback.worklet.js");
+  playerWorklet = new AudioWorkletNode(playerContext, "pcm-processor");
+  playerWorklet.connect(playerContext.destination);
+}
+
+async function playAudio(base64Audio) {
+  if (!playerWorklet) await initPlayer();
+  if (playerContext.state === "suspended") await playerContext.resume();
+  const binary = atob(base64Audio);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  const int16 = new Int16Array(bytes.buffer);
+  const float32 = new Float32Array(int16.length);
+  for (let i = 0; i < int16.length; i++) float32[i] = int16[i] / 32768;
+  playerWorklet.port.postMessage(float32);
+  isReceiving = true;
+}
+
+async function startSendingToGemini() {
+  if (!mediaStream) return;
+  audioContext = new AudioContext({ sampleRate: 16000 });
+  await audioContext.audioWorklet.addModule("audio-processors/capture.worklet.js");
+  workletNode = new AudioWorkletNode(audioContext, "audio-capture-processor");
+  
+  let firstAudioSent = false;
+  
+  workletNode.port.onmessage = (event) => {
+    if (event.data.type === "audio") {
+      const pcm16 = convertToPCM16(event.data.data);
+      const base64 = arrayBufferToBase64(pcm16);
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({
+          realtimeInput: { audio: { mimeType: "audio/pcm", data: base64 } },
+        }));
+        
+        // Send silence after first audio to trigger greeting
+        if (!firstAudioSent) {
+          firstAudioSent = true;
+          setTimeout(() => {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+              const silence = new Float32Array(16000); // 1 second of silence at 16kHz
+              const silencePcm16 = convertToPCM16(silence);
+              const silenceBase64 = arrayBufferToBase64(silencePcm16);
+              ws.send(JSON.stringify({
+                realtimeInput: { audio: { mimeType: "audio/pcm", data: silenceBase64 } },
+              }));
+            }
+          }, 500);
+        }
+      }
+    }
+  };
+  const source = audioContext.createMediaStreamSource(mediaStream);
+  source.connect(workletNode);
+  setChip(micChip, "connected", "Mic: Streaming");
+  addConversation("[Streaming audio to Gemini]", "agent");
+}
+
+function convertToPCM16(float32Array) {
+  const int16 = new Int16Array(float32Array.length);
+  for (let i = 0; i < float32Array.length; i++) {
+    const s = Math.max(-1, Math.min(1, float32Array[i]));
+    int16[i] = s * 0x7fff;
+  }
+  return int16.buffer;
+}
+
+async function connectGemini() {
+  setStatus("Fetching Gemini token...");
+  setChip(geminiChip, "connecting", "Gemini: Token...");
+  const tokenUrl = window.location.origin + "/api/token";
+  const resp = await fetch(tokenUrl, { method: "POST" });
+  if (!resp.ok) throw new Error(`Token fetch failed: ${resp.status}`);
+  const { token, model } = await resp.json();
+  setStatus("Connecting to Gemini Live...");
+  setChip(geminiChip, "connecting", "Gemini: Connecting...");
+  const wsUrl = `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContentConstrained?access_token=${token}`;
+  ws = new WebSocket(wsUrl);
+  ws.onopen = () => {
+    ws.send(JSON.stringify({
+      setup: {
+        model: `models/${model}`,
+        generationConfig: {
+          responseModalities: ["AUDIO"],
+          temperature: 1.0,
+          speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Puck" } } },
+        },
+        systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+        tools: [{ functionDeclarations: TOOL_DEFS }],
+        inputAudioTranscription: {},
+        outputAudioTranscription: {},
+        realtimeInputConfig: {
+          automaticActivityDetection: { disabled: false, silenceDurationMs: 2000, prefixPaddingMs: 500 },
+          turnCoverage: "TURN_INCLUDES_ONLY_ACTIVITY",
+        },
+      },
+    }));
+  };
+  ws.onmessage = async (event) => {
+    let jsonData;
+    if (event.data instanceof Blob) jsonData = await event.data.text();
+    else if (event.data instanceof ArrayBuffer) jsonData = new TextDecoder().decode(event.data);
+    else jsonData = event.data;
+    let data;
+    try { data = JSON.parse(jsonData); } catch (e) { return; }
+    handleMessage(data);
+  };
+  ws.onerror = () => {
+    setChip(geminiChip, "disconnected", "Gemini: Error");
+    setStatus("Gemini connection error");
+  };
+  ws.onclose = (e) => {
+    isConnected = false;
+    setChip(geminiChip, "disconnected", "Gemini: Disconnected");
+    setStatus(`Disconnected (code=${e.code})`);
+    setTimeout(() => { if (!isConnected) { addConversation("[Reconnecting...]", "agent"); connectGemini(); } }, 3000);
+  };
+}
+
+function handleMessage(data) {
+  const sc = data?.serverContent;
+  if (data?.setupComplete) {
+    isConnected = true;
+    setChip(geminiChip, "connected", "Gemini: Connected");
+    setStatus("Connected — starting conversation");
+    addConversation("[Plato AI connected]", "agent");
+    
+    if (taskContext) {
+      ws.send(JSON.stringify({
+        clientContent: {
+          turns: [{ role: "user", parts: [{ text: `You are assisting a customer with this issue: ${taskContext}. Greet them and ask what they need help with.` }]}],
+          turnComplete: true,
+        },
+      }));
+    }
+    
+    startSendingToGemini();
+    return;
+  }
+  if (data?.toolCall) { handleToolCall(data.toolCall); return; }
+  
+  const parts = sc?.modelTurn?.parts;
+  if (parts?.length) {
+    for (const part of parts) {
+      if (part.inlineData) playAudio(part.inlineData.data);
+      // Don't add text here - outputTranscription handles it
+    }
+  }
+  
+  if (sc?.inputTranscription) {
+    const text = sc.inputTranscription.text || "";
+    if (text) {
+      addConversation(text, "user");
+      if (sc.inputTranscription.finished) {
+        currentUserMessage = null;
+      }
+    }
+  }
+  
+  if (sc?.outputTranscription) {
+    const text = sc.outputTranscription.text || "";
+    if (text) {
+      addConversation(text, "agent");
+      if (sc.outputTranscription.finished) {
+        currentAgentMessage = null;
+      }
+    }
+  }
+  
+  if (sc?.turnComplete) {
+    currentAgentMessage = null;
+    currentUserMessage = null;
+  }
+  
+  if (sc?.interrupted) {
+    currentAgentMessage = null;
+    currentUserMessage = null;
+    if (playerWorklet) playerWorklet.port.postMessage("interrupt");
+  }
+}
+
+async function handleToolCall(toolCall) {
+  const functionResponses = [];
+  for (const fc of toolCall.functionCalls || []) {
+    const name = fc.name;
+    const args = fc.args || {};
+    let result;
+
+    try {
+      if (name === "delegate_task") {
+        const reasoningSteps = [
+          "Analyzing the issue...",
+          "Formulating investigation plan...",
+          "Handing off to Qwen for execution..."
+        ];
+        
+        addConversation(`I'll investigate this by running some diagnostic commands. Let me delegate this to our execution engine.`, "agent", reasoningSteps);
+        
+        const startResp = await fetch(`${BACKEND_URL}/task/stream`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            task_description: args.task_description,
+            grant_id: GRANT_ID,
+            agent_id: AGENT_ID,
+            email: sessionData?.email || "",
+          }),
+        });
+        
+        if (!startResp.ok) {
+          const errorData = await startResp.json().catch(() => ({ detail: "Unknown error" }));
+          result = `Task failed: ${errorData.detail || startResp.statusText}`;
+          addConversation(result, "agent");
+        } else {
+          const startData = await startResp.json();
+          const taskId = startData.task_id;
+          
+          result = `Task started. I'm investigating ${args.task_description}. I'll update you as I find things.`;
+          
+          // Run SSE in background, don't block
+          const eventSource = new EventSource(`${BACKEND_URL}/task/${taskId}/events`);
+          let taskSummary = "";
+          let commandCount = 0;
+          
+          eventSource.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            
+            if (data.type === "task_start") {
+              addConversation(`Investigating...`, "agent");
+            } else if (data.type === "command_start") {
+              commandCount++;
+              const blockId = addCommandBlock(data.command, "running");
+              addConversation(`Running command ${commandCount}...`, "agent");
+            } else if (data.type === "command_complete") {
+              const blocks = commandsEl.querySelectorAll('.cmd-block');
+              const lastBlock = blocks[blocks.length - 1];
+              if (lastBlock) {
+                updateCommandBlock(lastBlock.id, data.output, data.status);
+              }
+            } else if (data.type === "approval_required") {
+              showApprovalCard(data.command, taskId);
+            } else if (data.type === "task_complete") {
+              taskSummary = data.summary;
+              eventSource.close();
+              
+              const summaryReasoning = [
+                "Analyzing results from all commands...",
+                "Identifying root cause...",
+                "Formulating solution..."
+              ];
+              addConversation(`Here's what I found: ${taskSummary}`, "agent", summaryReasoning);
+              
+              // Send results back to Gemini to continue conversation
+              if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                  clientContent: {
+                    turns: [{ role: "user", parts: [{ text: `The investigation is complete. Here's what I found: ${taskSummary}. Now explain this to the customer in plain language and ask if they need anything else.` }]}],
+                    turnComplete: true,
+                  },
+                }));
+              }
+            } else if (data.type === "task_error") {
+              taskSummary = `Error: ${data.error}`;
+              eventSource.close();
+              addConversation(taskSummary, "agent");
+              
+              if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                  clientContent: {
+                    turns: [{ role: "user", parts: [{ text: `The investigation encountered an error: ${data.error}. Explain this to the customer and suggest next steps.` }]}],
+                    turnComplete: true,
+                  },
+                }));
+              }
+            }
+          };
+          
+          eventSource.onerror = () => {
+            eventSource.close();
+          };
+        }
+      } else if (name === "revoke_access") {
+        const resp = await fetch(`${BACKEND_URL}/sessions/${AGENT_ID}/end`, { method: "POST" });
+        result = "Access revoked, session ended";
+        addConversation("Session ended", "agent");
+      } else {
+        result = "Unknown tool.";
+      }
+    } catch (e) {
+      console.error("Tool error:", e);
+      result = `Error: ${e.message}`;
+      addConversation(`Tool error: ${name}`, "agent");
+    }
+
+    functionResponses.push({ id: fc.id, name: name, response: { result } });
+  }
+  if (ws && ws.readyState === WebSocket.OPEN) {
+    ws.send(JSON.stringify({ toolResponse: { functionResponses } }));
+  }
+}
+
+function showApprovalCard(command, taskId) {
+  const card = document.createElement("div");
+  card.className = "approval-card";
+  
+  const title = document.createElement("div");
+  title.className = "approval-title";
+  title.textContent = "Action Requires Approval";
+  card.appendChild(title);
+  
+  const action = document.createElement("div");
+  action.className = "approval-action";
+  action.textContent = `The agent needs to run: ${command}`;
+  card.appendChild(action);
+  
+  const consequence = document.createElement("div");
+  consequence.className = "approval-consequence";
+  consequence.textContent = "This action may modify system files or data. Please confirm if you want to proceed.";
+  card.appendChild(consequence);
+  
+  const recommendation = document.createElement("div");
+  recommendation.className = "approval-recommendation";
+  recommendation.textContent = "Say 'yes' to approve or 'no' to deny";
+  card.appendChild(recommendation);
+  
+  conversationEl.appendChild(card);
+  conversationEl.scrollTop = conversationEl.scrollHeight;
+  
+  addConversation(`Approval required for: ${command}`, "agent");
+}
+
+let taskContext = "";
+let sessionData = null;
+
+async function loadContext() {
+  try {
+    if (!AGENT_ID || AGENT_ID === "unknown") {
+      console.log("No agent ID - skipping context load");
+      return;
+    }
+    const sessionResp = await fetch(`${BACKEND_URL}/sessions/${AGENT_ID}`);
+    if (sessionResp.ok) {
+      sessionData = await sessionResp.json();
+      if (sessionData.task_context) {
+        taskContext = sessionData.task_context;
+        addConversation(`[Task: ${sessionData.task_context.substring(0, 80)}]`, "agent");
+      }
+      if (sessionData.email) {
+        try {
+          const ctxResp = await fetch(`${BACKEND_URL}/admin/tenant-context/${encodeURIComponent(sessionData.email)}`);
+          if (ctxResp.ok) {
+            const ctxData = await ctxResp.json();
+            const context = ctxData.context;
+            if (context && context.includes("PREVIOUS SESSIONS")) {
+              contextBanner.className = "has-history";
+              contextBanner.textContent = "Previous sessions available";
+            }
+          }
+        } catch (e) {}
+      }
+    }
+  } catch (e) {
+    console.log("Context load skipped: " + e.message);
+  }
+}
+
+async function boot() {
+  setStatus("Booting plato agent...");
+  addConversation("[Agent booting]", "agent");
+  
+  loadContext();
+  
+  try {
+    await connectGemini();
+  } catch (e) {
+    setStatus("Failed: " + e.message);
+    addConversation(`Error: ${e.message}`, "agent");
+    setTimeout(boot, 5000);
+    return;
+  }
+  
+  try {
+    const gotAudio = await getMeetingAudio();
+    if (!gotAudio) {
+      addConversation("[No meeting audio — will listen via mic]", "agent");
+    }
+  } catch (e) {
+    addConversation("[Audio setup skipped]", "agent");
+  }
+}
+
+window.addEventListener('beforeunload', () => {
+  try {
+    fetch(`${BACKEND_URL}/sessions/${AGENT_ID}/end`, {
+      method: 'POST',
+      keepalive: true,
+      headers: { 'Content-Type': 'application/json' }
+    }).catch(() => {});
+  } catch (e) {}
+});
+
+boot();
+</script>
+</body>
+</html>
