@@ -37,11 +37,36 @@ const NAV = [
 ];
 
 const THREADS = [
-  { from: "Slack", subject: "New messages from 1 conversation in CockroachDB Community", snippet: "Your team is working in Slack.", time: "10:49" },
-  { from: "The Google Cloud Ar.", subject: "[Arcade Insider] Players, your August missions are live", snippet: "Complete missions to earn badges.", time: "10:31" },
-  { from: "Devpost", subject: "It's Go Time!! — CockroachDB × AWS Hackathon", snippet: "Submissions close soon.", time: "09:58" },
-  { from: "Cloudflare", subject: "Last chance: $100 off Connect 2026", snippet: "Agents week recap inside.", time: "09:22" },
-  { from: "Datadog", subject: "Monitor alert: orders-api restart count elevated", snippet: "Threshold breached on nwl-prod-edge.", time: "08:47" },
+  {
+    from: "Slack",
+    subject: "New messages from 1 conversation in CockroachDB Community",
+    snippet: "Your team is working in Slack.",
+    time: "10:49",
+  },
+  {
+    from: "The Google Cloud Ar.",
+    subject: "[Arcade Insider] Players, your August missions are live",
+    snippet: "Complete missions to earn badges.",
+    time: "10:31",
+  },
+  {
+    from: "Devpost",
+    subject: "It's Go Time!! — CockroachDB × AWS Hackathon",
+    snippet: "Submissions close soon.",
+    time: "09:58",
+  },
+  {
+    from: "Cloudflare",
+    subject: "Last chance: $100 off Connect 2026",
+    snippet: "Agents week recap inside.",
+    time: "09:22",
+  },
+  {
+    from: "Datadog",
+    subject: "Monitor alert: orders-api restart count elevated",
+    snippet: "Threshold breached on nwl-prod-edge.",
+    time: "08:47",
+  },
 ];
 
 function GmailChrome({
@@ -176,7 +201,10 @@ export function GmailCompose({
               To <span className="text-foreground">{TENANT.contact}</span>
             </p>
             <p className="border-b border-border py-2">
-              Subject: <span className="font-medium">Urgent — {TENANT.service} crash loop in production</span>
+              Subject:{" "}
+              <span className="font-medium">
+                Urgent — {TENANT.service} crash loop in production
+              </span>
             </p>
             <textarea
               value={body}

@@ -211,9 +211,7 @@ export function MailboxApproval({
             <div className="mt-4 border-t border-border pt-3.5">
               <div className="flex items-center gap-2 text-xs text-success bg-success/5 rounded-lg px-3 py-2.5 border border-success/30">
                 <CheckCircle2 className="size-4" />
-                <span className="font-medium">
-                  Approval sent · Plato is applying the fix now
-                </span>
+                <span className="font-medium">Approval sent · Plato is applying the fix now</span>
               </div>
             </div>
           )}

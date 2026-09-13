@@ -63,7 +63,14 @@ function ThinkingOrb({ state = "thinking", size = 48, className }: ThinkingOrbPr
           ctx.fill();
         }
 
-        const centerGradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(radius * 0.5, 1));
+        const centerGradient = ctx.createRadialGradient(
+          cx,
+          cy,
+          0,
+          cx,
+          cy,
+          Math.max(radius * 0.5, 1),
+        );
         centerGradient.addColorStop(0, "rgba(28, 93, 95, 0.6)");
         centerGradient.addColorStop(1, "rgba(28, 93, 95, 0)");
         ctx.fillStyle = centerGradient;
