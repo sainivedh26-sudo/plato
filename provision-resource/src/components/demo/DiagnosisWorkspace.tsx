@@ -29,17 +29,17 @@ const TAB = {
   conversation: {
     label: "Conversation",
     icon: MessagesSquare,
-    description: "Real-time dialogue between the agent and customer"
+    description: "Real-time dialogue between the agent and customer",
   },
   worker: {
     label: "Worker Activity",
     icon: Activity,
-    description: "LangGraph execution traces showing agent reasoning steps"
+    description: "LangGraph execution traces showing agent reasoning steps",
   },
   db: {
     label: "Audit Log",
     icon: Database,
-    description: "Tamper-evident record of every action in CockroachDB"
+    description: "Tamper-evident record of every action in CockroachDB",
   },
 } as const;
 
@@ -92,11 +92,12 @@ const STAGE_ITEMS = [
   },
 ];
 
-type DemoPhase = "idle" | "provisioning" | "diagnosing" | "approval" | "fixing" | "recovered" | "complete";
+type DemoPhase =
+  "idle" | "provisioning" | "diagnosing" | "approval" | "fixing" | "recovered" | "complete";
 
 export function DiagnosisWorkspace({
   onComplete,
-  onPhaseChange
+  onPhaseChange,
 }: {
   onComplete: () => void;
   onPhaseChange?: (phase: DemoPhase) => void;
@@ -192,7 +193,7 @@ export function DiagnosisWorkspace({
       setTimeout(() => {
         approvalRef.current?.scrollIntoView({
           behavior: "smooth",
-          block: "center"
+          block: "center",
         });
         setShowApprovalFocus(true);
         setTimeout(() => setShowApprovalFocus(false), 3000);
@@ -206,7 +207,7 @@ export function DiagnosisWorkspace({
       setTimeout(() => {
         suggestionRef.current?.scrollIntoView({
           behavior: "smooth",
-          block: "center"
+          block: "center",
         });
       }, 300);
     }
@@ -278,7 +279,7 @@ export function DiagnosisWorkspace({
         "[data-tour='session-suggestion-btn']",
         "Respond as the customer",
         "Click this suggested response to continue the conversation. The agent will proceed with its analysis based on your input.",
-        "top"
+        "top",
       );
     }, 600);
 
@@ -297,7 +298,7 @@ export function DiagnosisWorkspace({
         "[data-tour='session-approval-box']",
         "Approval required",
         "The agent has identified the root cause and proposes a fix. Review the details and approve. This is the only mutating action in the workflow — all others are read-only.",
-        "top"
+        "top",
       );
     }, 800);
 
@@ -317,7 +318,7 @@ export function DiagnosisWorkspace({
         "[data-tour='session-diagnosis-toggle']",
         "Explore diagnosis details",
         "Click the Diagnosis tab to see the full technical breakdown — conversation history, agent reasoning traces, and the tamper-evident audit log.",
-        "bottom"
+        "bottom",
       );
     }, 600);
 
@@ -367,8 +368,7 @@ export function DiagnosisWorkspace({
           },
           popover: {
             title: "Audit Log",
-            description:
-              "Every action is recorded to a tamper-evident CockroachDB audit trail.",
+            description: "Every action is recorded to a tamper-evident CockroachDB audit trail.",
             side: "bottom",
             align: "start",
           },
@@ -391,7 +391,7 @@ export function DiagnosisWorkspace({
         "[data-tour='session-report-btn']",
         "Session complete",
         "Click to view the full session report with root cause, fix details, verification results, and audit trail.",
-        "bottom"
+        "bottom",
       );
     }, 600);
 
@@ -474,12 +474,18 @@ export function DiagnosisWorkspace({
                 />
               </div>
 
-              <Badge variant="success" data-tour="session-live-badge" className="gap-1 text-[9px] sm:gap-1.5 sm:text-[10px]">
+              <Badge
+                variant="success"
+                data-tour="session-live-badge"
+                className="gap-1 text-[9px] sm:gap-1.5 sm:text-[10px]"
+              >
                 <span className="live-dot inline-block size-1 rounded-full bg-success sm:size-1.5" />
                 <span className="hidden sm:inline">sbx-7f21c</span>
                 <span className="sm:hidden">live</span>
               </Badge>
-              <Badge variant="info" className="text-[9px] sm:text-[10px]">{progress}%</Badge>
+              <Badge variant="info" className="text-[9px] sm:text-[10px]">
+                {progress}%
+              </Badge>
             </div>
           </div>
         </div>
@@ -487,7 +493,10 @@ export function DiagnosisWorkspace({
         {/* Main grid */}
         <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
           {/* Left: Conversation / Worker / DB */}
-          <div data-tour="session-conversation-pane" className="liquid-glass rounded-xl overflow-hidden flex flex-col">
+          <div
+            data-tour="session-conversation-pane"
+            className="liquid-glass rounded-xl overflow-hidden flex flex-col"
+          >
             <div className="flex items-center justify-between border-b border-border/50 bg-surface/30 px-3 py-2 sm:px-4 sm:py-2.5">
               {view === "diagnosis" ? (
                 <div className="space-y-1">
@@ -550,7 +559,10 @@ export function DiagnosisWorkspace({
 
           {/* Right: Command Execution + Stage Progress */}
           <div className="flex flex-col gap-4">
-            <div data-tour="session-command-pane" className="liquid-glass rounded-xl overflow-hidden flex flex-col">
+            <div
+              data-tour="session-command-pane"
+              className="liquid-glass rounded-xl overflow-hidden flex flex-col"
+            >
               <div className="flex items-center gap-2 border-b border-border/50 bg-surface/30 px-3 py-2 sm:px-4 sm:py-2.5">
                 <Terminal className="size-3.5 text-accent" />
                 <SectionLabel>Command Execution</SectionLabel>
@@ -563,7 +575,10 @@ export function DiagnosisWorkspace({
               </div>
             </div>
 
-            <div data-tour="session-stage-progress" className="liquid-glass rounded-xl overflow-hidden">
+            <div
+              data-tour="session-stage-progress"
+              className="liquid-glass rounded-xl overflow-hidden"
+            >
               <div className="flex items-center gap-2 border-b border-border/50 bg-surface/30 px-3 py-2 sm:px-4 sm:py-2.5">
                 <Activity className="size-3.5 text-primary" />
                 <SectionLabel>Stage Progress</SectionLabel>
@@ -582,7 +597,7 @@ export function DiagnosisWorkspace({
             data-tour="session-approval-box"
             className={cn(
               "liquid-glass-strong rounded-xl overflow-hidden border-warning/40 transition-all",
-              showApprovalFocus && "highlight-glow"
+              showApprovalFocus && "highlight-glow",
             )}
           >
             <div className="flex items-center justify-between border-b border-border/50 bg-surface/30 px-4 py-2.5">
@@ -743,7 +758,7 @@ function ConversationPane({
                   size="sm"
                   className={cn(
                     "gap-2 border-primary/40 bg-primary/5 text-primary hover:bg-primary/10 transition-all",
-                    isCustomerPause && "highlight-pulse"
+                    isCustomerPause && "highlight-pulse",
                   )}
                 >
                   <Send className="size-3" />

@@ -9,7 +9,13 @@ interface TourCalloutProps {
   onDismiss: () => void;
 }
 
-export function TourCallout({ selector, title, description, side = "bottom", onDismiss }: TourCalloutProps) {
+export function TourCallout({
+  selector,
+  title,
+  description,
+  side = "bottom",
+  onDismiss,
+}: TourCalloutProps) {
   const [position, setPosition] = useState<{ top: number; left: number } | null>(null);
   const [visible, setVisible] = useState(false);
   const popoverRef = useRef<HTMLDivElement>(null);

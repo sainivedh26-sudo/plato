@@ -79,7 +79,9 @@ export function StageFrame({
           </span>
           <div>
             <h2 className="text-xs font-semibold text-foreground sm:text-sm">{title}</h2>
-            {subtitle ? <p className="text-[10px] text-muted-foreground sm:text-xs">{subtitle}</p> : null}
+            {subtitle ? (
+              <p className="text-[10px] text-muted-foreground sm:text-xs">{subtitle}</p>
+            ) : null}
           </div>
         </div>
         <div className="flex items-center gap-2">{right}</div>

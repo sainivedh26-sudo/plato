@@ -104,7 +104,7 @@ export function useDemoTour() {
         }, 300);
       }
     },
-    [hasSeenTour]
+    [hasSeenTour],
   );
 
   /**
@@ -137,7 +137,7 @@ export function useDemoTour() {
         });
       }, 300);
     },
-    [hasSeenTour]
+    [hasSeenTour],
   );
 
   const dismissCallout = useCallback(() => {
