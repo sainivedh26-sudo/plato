@@ -40,7 +40,7 @@
 2. Aws SSM
 3. ReadAI
 
-## Want a quick hands on ?
+## Want a quick hands on ? (demo video)
 
 <br>
 
