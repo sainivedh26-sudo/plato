@@ -1,0 +1,667 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Plato — Premium Enterprise Design System
+ * Based on User Interviews design system: clean white, deep teal, editorial
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-full: 9999px;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-foreground: var(--surface-foreground);
+  --color-elevated: var(--elevated);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-serif: "Source Serif 4", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+:root {
+  --radius: 0.75rem;
+
+  /* Clean White Enterprise Theme - User Interviews inspired */
+  --background: #f2f8f7; /* Paper White */
+  --foreground: #283338; /* Charcoal Navy */
+  --surface: #ffffff;
+  --surface-foreground: #283338;
+  --elevated: #ffffff;
+  --card: #ffffff;
+  --card-foreground: #283338;
+  --popover: #ffffff;
+  --popover-foreground: #283338;
+
+  /* Primary: Deep Teal from User Interviews */
+  --primary: #1c5d5f;
+  --primary-foreground: #ffffff;
+  --secondary: #e4f0f1; /* Card Mint */
+  --secondary-foreground: #283338;
+  --muted: #f2f8f7;
+  --muted-foreground: #6b7280;
+  --accent: #65b8a2; /* Sage */
+  --accent-foreground: #ffffff;
+
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --success: #059669;
+  --success-foreground: #ffffff;
+  --warning: #d97706;
+  --warning-foreground: #ffffff;
+  --info: #0284c7;
+  --info-foreground: #ffffff;
+
+  --border: #e4f0f1; /* Card Mint as border */
+  --border-strong: #a2cbcd; /* Mint Mist */
+  --input: #e4f0f1;
+  --ring: #1c5d5f;
+
+  --chart-1: #1c5d5f;
+  --chart-2: #059669;
+  --chart-3: #d97706;
+  --chart-4: #7c3aed;
+  --chart-5: #dc2626;
+
+  --sidebar: #f2f8f7;
+  --sidebar-foreground: #283338;
+  --sidebar-primary: #1c5d5f;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e4f0f1;
+  --sidebar-accent-foreground: #283338;
+  --sidebar-border: #e4f0f1;
+  --sidebar-ring: #1c5d5f;
+
+  /* Gradient shells - subtle */
+  --gradient-shell: radial-gradient(
+      100% 80% at 10% -5%,
+      color-mix(in oklab, #e4f0f1 50%, transparent),
+      transparent 55%
+    ),
+    radial-gradient(
+      80% 70% at 95% 5%,
+      color-mix(in oklab, #cae1e2 40%, transparent),
+      transparent 50%
+    );
+  --gradient-panel: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.95),
+    rgba(242, 248, 247, 0.98)
+  );
+  --shadow-panel: 0 20px 50px -25px rgba(0, 0, 0, 0.08);
+  --shadow-glow: 0 0 0 1px rgba(28, 93, 95, 0.1),
+    0 12px 40px -20px rgba(28, 93, 95, 0.15);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+}
+
+/* Dark mode override */
+.dark {
+  --background: oklch(0.12 0.02 260);
+  --foreground: oklch(0.97 0.005 260);
+  --surface: oklch(0.16 0.025 260);
+  --surface-foreground: oklch(0.97 0.005 260);
+  --elevated: oklch(0.20 0.03 260);
+  --card: oklch(0.16 0.025 260);
+  --card-foreground: oklch(0.97 0.005 260);
+  --popover: oklch(0.18 0.028 260);
+  --popover-foreground: oklch(0.97 0.005 260);
+  --primary: oklch(0.55 0.15 200);
+  --primary-foreground: oklch(0.12 0.02 250);
+  --secondary: oklch(0.22 0.02 260);
+  --secondary-foreground: oklch(0.95 0.005 260);
+  --muted: oklch(0.20 0.02 260);
+  --muted-foreground: oklch(0.62 0.015 260);
+  --accent: oklch(0.65 0.13 195);
+  --accent-foreground: oklch(0.12 0.02 250);
+  --border: oklch(0.24 0.02 260);
+  --border-strong: oklch(0.32 0.025 260);
+  --input: oklch(0.24 0.02 260);
+  --ring: oklch(0.55 0.15 200);
+}
+
+/* Light surfaces for embedded product mockups (Gmail). */
+.mock-light {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.24 0.01 260);
+  --surface: oklch(0.98 0.003 260);
+  --elevated: oklch(0.96 0.004 260);
+  --muted: oklch(0.96 0.004 260);
+  --muted-foreground: oklch(0.5 0.01 260);
+  --border: oklch(0.9 0.005 260);
+  --border-strong: oklch(0.84 0.006 260);
+  --primary: oklch(0.55 0.18 265);
+  --primary-foreground: oklch(1 0 0);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@utility panel {
+  background-image: var(--gradient-panel);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-panel);
+  border-radius: var(--radius-xl);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+@utility grid-bg {
+  background-image: linear-gradient(
+      to right,
+      color-mix(in oklab, var(--border) 40%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--border) 40%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 40px 40px;
+}
+
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--success) 50%, transparent); }
+  70% { box-shadow: 0 0 0 5px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+@utility live-dot {
+  animation: pulse-ring 1.8s ease-out infinite;
+}
+
+@utility transition-smooth {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Liquid Glass Overlay Effect - Light Theme */
+@utility liquid-glass {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(228, 240, 241, 0.6);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+@utility liquid-glass-strong {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  border: 1px solid rgba(228, 240, 241, 0.7);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* Scrollbar styling */
+@utility custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--color-border);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-border-strong);
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  /* Improve touch targets on mobile */
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Smaller touch targets for inline buttons */
+  .inline-touch-target {
+    min-height: 36px;
+    min-width: 36px;
+  }
+  
+  /* Reduce animations on mobile for better performance */
+  .liquid-glass,
+  .liquid-glass-strong {
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+  }
+}
+
+/* Ensure proper focus states for accessibility */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Smooth scrolling for better UX */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Prevent layout shift from scrollbar */
+html {
+  overflow-y: scroll;
+}
+
+/* Guided demo animations */
+@keyframes highlight-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--primary) 40%, transparent);
+  }
+  50% { 
+    box-shadow: 0 0 0 8px color-mix(in oklab, var(--primary) 0%, transparent);
+  }
+}
+
+@keyframes highlight-glow {
+  0%, 100% { 
+    box-shadow: 0 0 8px 2px color-mix(in oklab, var(--warning) 50%, transparent);
+  }
+  50% { 
+    box-shadow: 0 0 16px 4px color-mix(in oklab, var(--warning) 30%, transparent);
+  }
+}
+
+@keyframes blink-subtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes focus-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes spotlight-in {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@utility highlight-pulse {
+  animation: highlight-pulse 2s ease-in-out infinite;
+}
+
+@utility highlight-glow {
+  animation: highlight-glow 1.5s ease-in-out infinite;
+}
+
+@utility blink-subtle {
+  animation: blink-subtle 1.2s ease-in-out infinite;
+}
+
+@utility fade-in-up {
+  animation: fade-in-up 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@utility focus-overlay-in {
+  animation: focus-overlay-in 0.3s ease-out;
+}
+
+@utility spotlight-in {
+  animation: spotlight-in 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* ============================================
+   Driver.js Guided Tour — Plato Theme
+   ============================================ */
+
+.plato-driver-popover {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1px solid rgba(228, 240, 241, 0.8) !important;
+  box-shadow:
+    0 20px 50px -20px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(28, 93, 95, 0.08) !important;
+  border-radius: 16px !important;
+  padding: 0 !important;
+  max-width: 380px !important;
+}
+
+.plato-driver-popover .driver-popover-title {
+  font-family: var(--font-sans) !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: var(--foreground) !important;
+  letter-spacing: -0.01em !important;
+  padding: 16px 16px 0 !important;
+  margin: 0 !important;
+  line-height: 1.4 !important;
+}
+
+.plato-driver-popover .driver-popover-description {
+  font-family: var(--font-sans) !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+  color: var(--muted-foreground) !important;
+  padding: 8px 16px 16px !important;
+  margin: 0 !important;
+}
+
+.plato-driver-popover .driver-popover-footer {
+  padding: 0 16px 16px !important;
+  margin: 0 !important;
+  border-top: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+}
+
+.plato-driver-popover .driver-popover-progress-text {
+  font-family: var(--font-mono) !important;
+  font-size: 11px !important;
+  color: var(--muted-foreground) !important;
+  font-weight: 500 !important;
+}
+
+.plato-driver-popover .driver-popover-navigation-btns {
+  display: flex !important;
+  gap: 8px !important;
+}
+
+/* --- Driver.js buttons: explicit colors to avoid white-on-white bug --- */
+.plato-driver-popover .driver-popover-footer-btn,
+.plato-driver-popover .driver-popover-prev-btn,
+.plato-driver-popover .driver-popover-next-btn,
+.plato-driver-popover .driver-popover-done-btn,
+.plato-driver-popover .driver-popover-close-btn {
+  font-family: var(--font-sans) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  padding: 6px 14px !important;
+  border-radius: 8px !important;
+  border: 1px solid var(--border) !important;
+  background-color: transparent !important;
+  color: #283338 !important;
+  cursor: pointer !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  text-shadow: none !important;
+}
+
+/* Next / Done — filled primary style */
+.plato-driver-popover .driver-popover-next-btn,
+.plato-driver-popover .driver-popover-done-btn {
+  background-color: #1c5d5f !important;
+  color: #ffffff !important;
+  border-color: #1c5d5f !important;
+}
+
+.plato-driver-popover .driver-popover-next-btn:hover,
+.plato-driver-popover .driver-popover-done-btn:hover {
+  background-color: #164d4f !important;
+  color: #ffffff !important;
+  opacity: 0.95 !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Prev — outlined style with visible hover background */
+.plato-driver-popover .driver-popover-prev-btn:hover {
+  background-color: #f2f8f7 !important;
+  color: #283338 !important;
+  border-color: #a2cbcd !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Close (X top-right) */
+.plato-driver-popover .driver-popover-close-btn {
+  background-color: transparent !important;
+  color: #6b7280 !important;
+}
+
+.plato-driver-popover .driver-popover-close-btn:hover {
+  background-color: #f2f8f7 !important;
+  color: #283338 !important;
+  transform: none !important;
+}
+
+.plato-driver-popover .driver-popover-close-btn {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  padding: 4px !important;
+  width: 24px !important;
+  height: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 6px !important;
+  border: none !important;
+  background: transparent !important;
+  color: var(--muted-foreground) !important;
+}
+
+.plato-driver-popover .driver-popover-close-btn:hover {
+  background: var(--muted) !important;
+  color: var(--foreground) !important;
+  transform: none !important;
+}
+
+.plato-driver-popover .driver-popover-arrow {
+  display: none !important;
+}
+
+/* Driver.js stage highlight overlay */
+#driver-page-overlay {
+  background: rgba(40, 51, 56, 0.35) !important;
+  backdrop-filter: blur(2px) !important;
+}
+
+/* Pulse animation for highlighted elements */
+@keyframes driver-highlight-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--primary) 50%, transparent);
+  }
+  50% { 
+    box-shadow: 0 0 0 12px color-mix(in oklab, var(--primary) 0%, transparent);
+  }
+}
+
+.driver-active-element {
+  animation: driver-highlight-pulse 2s ease-in-out infinite;
+}
+
+/* ============================================
+   Custom Tour Callout (non-blocking alternative
+   to driver.js highlight for interactive elements)
+   ============================================ */
+
+@keyframes tour-target-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--primary) 45%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 10px color-mix(in oklab, var(--primary) 0%, transparent);
+  }
+}
+
+.tour-target-pulse {
+  animation: tour-target-pulse 2s ease-in-out infinite;
+  border-radius: var(--radius-lg);
+}
+
+.tour-callout-inner {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(228, 240, 241, 0.9);
+  box-shadow:
+    0 20px 50px -20px rgba(0, 0, 0, 0.14),
+    0 0 0 1px rgba(28, 93, 95, 0.1);
+  border-radius: 16px;
+  padding: 16px;
+  min-width: 260px;
+  max-width: 340px;
+  position: relative;
+}
+
+.tour-callout-title {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--foreground);
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+  padding-right: 24px;
+}
+
+.tour-callout-desc {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+  margin-top: 6px;
+}
+
+.tour-callout-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.tour-callout-btn {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--primary);
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tour-callout-btn:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.tour-callout-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 4px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tour-callout-close:hover {
+  background: var(--muted);
+  color: var(--foreground);
+}
+
+.tour-callout-arrow {
+  width: 12px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(228, 240, 241, 0.9);
+  box-shadow: -2px -2px 4px rgba(0, 0, 0, 0.04);
+  z-index: -1;
+}
