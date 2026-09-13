@@ -1,0 +1,5 @@
+.env
+__pycache__/
+agent-connect-remote/__pycache__/
+agent-connect-remote/.env
+opencode.json
