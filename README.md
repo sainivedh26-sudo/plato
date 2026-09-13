@@ -45,7 +45,7 @@
 
 <br>
 
-[![w2](https://github.com/user-attachments/assets/4eefe3bb-34e0-4f16-aa4b-6dc944e67a8f)](yet-to-be-updated)
+[![w2](https://github.com/user-attachments/assets/4eefe3bb-34e0-4f16-aa4b-6dc944e67a8f)](https://www.loom.com/share/ce5512c7d0f348ef88dec622fcf5dc74)
 
 <br>
 
@@ -182,4 +182,4 @@ Real-time visibility into active agent sessions, which customers are being serve
 
 ![Material wave loading](https://github.com/user-attachments/assets/a08255eb-9647-471d-9881-61871332249f)
 
-### Developed with ❤️ by [Sai Nivedh](https://github.com/SaiNIvedh26)
+### Developed with ❤️ by [Sai Nivedh](https://github.com/sainivedh26-sudo)
