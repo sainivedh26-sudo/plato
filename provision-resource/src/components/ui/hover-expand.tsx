@@ -19,9 +19,14 @@ export interface HoverExpandProps {
 
 export function HoverExpand({ items, onItemClick, className }: HoverExpandProps) {
   const isInteractive = !!onItemClick;
-  
+
   return (
-    <div className={cn("liquid-glass rounded-full px-2 py-1.5 flex items-center gap-0.5 overflow-x-auto custom-scrollbar", className)}>
+    <div
+      className={cn(
+        "liquid-glass rounded-full px-2 py-1.5 flex items-center gap-0.5 overflow-x-auto custom-scrollbar",
+        className,
+      )}
+    >
       {items.map((item, i) => {
         const isActive = item.status === "active";
         const isCompleted = item.status === "completed";

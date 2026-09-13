@@ -2,7 +2,8 @@ import { useEffect, useState, useMemo } from "react";
 import { Sparkline } from "@/components/ui/sparkline";
 import { cn } from "@/lib/utils";
 
-type DemoPhase = "idle" | "provisioning" | "diagnosing" | "approval" | "fixing" | "recovered" | "complete";
+type DemoPhase =
+  "idle" | "provisioning" | "diagnosing" | "approval" | "fixing" | "recovered" | "complete";
 
 const PHASE_CPU_DATA: Record<DemoPhase, number[]> = {
   idle: [12, 14, 13, 15, 12, 14, 13, 11, 13, 14, 12, 13],
@@ -35,14 +36,22 @@ function getColor(phase: DemoPhase): { stroke: string; fill: string; text: strin
 
 function getLabel(phase: DemoPhase): string {
   switch (phase) {
-    case "idle": return "CPU · idle";
-    case "provisioning": return "CPU · provisioning";
-    case "diagnosing": return "CPU · diagnostics";
-    case "approval": return "CPU · awaiting";
-    case "fixing": return "CPU · applying fix";
-    case "recovered": return "CPU · recovered";
-    case "complete": return "CPU · stable";
-    default: return "CPU · idle";
+    case "idle":
+      return "CPU · idle";
+    case "provisioning":
+      return "CPU · provisioning";
+    case "diagnosing":
+      return "CPU · diagnostics";
+    case "approval":
+      return "CPU · awaiting";
+    case "fixing":
+      return "CPU · applying fix";
+    case "recovered":
+      return "CPU · recovered";
+    case "complete":
+      return "CPU · stable";
+    default:
+      return "CPU · idle";
   }
 }
 
@@ -70,7 +79,7 @@ export function CpuSparkline({ phase, className }: { phase: DemoPhase; className
         target.map((t, i) => {
           const s = start[i] ?? t;
           return Math.round(s + (t - s) * eased);
-        })
+        }),
       );
 
       if (step >= steps) clearInterval(interval);
@@ -81,7 +90,7 @@ export function CpuSparkline({ phase, className }: { phase: DemoPhase; className
 
   useEffect(() => {
     const jitterInterval = setInterval(() => {
-      setAnimatedData(prev => {
+      setAnimatedData((prev) => {
         const base = PHASE_CPU_DATA[phase];
         return prev.map((val, i) => {
           const target = base[i] ?? val;
@@ -100,13 +109,20 @@ export function CpuSparkline({ phase, className }: { phase: DemoPhase; className
   const usage = animatedData[animatedData.length - 1] ?? 0;
 
   return (
-    <div className={cn(
-      "flex items-center gap-1.5 rounded-lg border border-border/50 bg-background/95 backdrop-blur-sm px-1.5 py-1 shadow-lg",
-      "sm:gap-2 sm:px-2.5 sm:py-1.5",
-      className
-    )}>
+    <div
+      className={cn(
+        "flex items-center gap-1.5 rounded-lg border border-border/50 bg-background/95 backdrop-blur-sm px-1.5 py-1 shadow-lg",
+        "sm:gap-2 sm:px-2.5 sm:py-1.5",
+        className,
+      )}
+    >
       <div className="flex flex-col gap-0.5">
-        <span className={cn("font-mono text-[8px] font-medium leading-none sm:text-[10px]", colors.text)}>
+        <span
+          className={cn(
+            "font-mono text-[8px] font-medium leading-none sm:text-[10px]",
+            colors.text,
+          )}
+        >
           {usage}%
         </span>
         <span className="hidden text-[8px] leading-none text-muted-foreground sm:block sm:text-[9px]">

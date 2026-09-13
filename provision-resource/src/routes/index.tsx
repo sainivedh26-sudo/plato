@@ -60,7 +60,8 @@ const STEPS = [
 
 type StepKey = (typeof STEPS)[number]["key"];
 
-type DemoPhase = "idle" | "provisioning" | "diagnosing" | "approval" | "fixing" | "recovered" | "complete";
+type DemoPhase =
+  "idle" | "provisioning" | "diagnosing" | "approval" | "fixing" | "recovered" | "complete";
 
 function DemoConsole() {
   const [step, setStep] = useState<StepKey>("welcome");
@@ -107,7 +108,7 @@ function DemoConsole() {
               "[data-tour='welcome-get-started']",
               "Welcome to the Plato demo",
               "This walkthrough uses real AWS resources in an isolated demo account. You'll see tenant context loading, read-only diagnostics, human approval gating, and tamper-evident audit trails.",
-              "bottom"
+              "bottom",
             );
           }
           break;
@@ -119,7 +120,7 @@ function DemoConsole() {
               "[data-tour='scenario-start-btn']",
               "Start the demo",
               "Click this button to begin. The environment will provision automatically, then you'll raise a support ticket and watch the agent diagnose and resolve the incident.",
-              "bottom"
+              "bottom",
             );
           }
           break;
@@ -131,7 +132,7 @@ function DemoConsole() {
               "[data-tour='ticket-send-btn']",
               "Send the support ticket",
               "Click Send to raise the support ticket. This triggers the automated triage and agent assignment workflow.",
-              "bottom"
+              "bottom",
             );
           }
           break;
@@ -143,7 +144,7 @@ function DemoConsole() {
               "[data-tour='assign-join-btn']",
               "Join the diagnosis session",
               "Click to join the live support call. A dedicated FDE sub-agent has been assigned to handle this incident with a secure, audited session.",
-              "bottom"
+              "bottom",
             );
           }
           break;
@@ -169,9 +170,12 @@ function DemoConsole() {
 
       <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center gap-4 bg-white px-6 sm:hidden">
         <Monitor className="h-10 w-10 text-[var(--foreground)]" />
-        <h2 className="text-xl font-semibold tracking-tight text-[var(--foreground)]">Desktop required</h2>
+        <h2 className="text-xl font-semibold tracking-tight text-[var(--foreground)]">
+          Desktop required
+        </h2>
         <p className="max-w-xs text-center text-sm leading-relaxed text-[var(--muted-foreground)]">
-          This demo is designed for a larger screen. Please switch to desktop for the best experience.
+          This demo is designed for a larger screen. Please switch to desktop for the best
+          experience.
         </p>
       </div>
 
@@ -186,9 +190,7 @@ function DemoConsole() {
           <div className="flex items-center gap-2 sm:gap-3">
             <img src="/plato-removebg-preview.png" alt="Plato" className="h-7 w-auto sm:h-9" />
             <div>
-              <h1 className="text-xs font-semibold tracking-tight sm:text-sm">
-                Plato · FDE Agent
-              </h1>
+              <h1 className="text-xs font-semibold tracking-tight sm:text-sm">Plato · FDE Agent</h1>
               <p className="text-[10px] text-muted-foreground sm:text-xs">
                 Guided demo · live AWS resources
               </p>
@@ -344,7 +346,9 @@ function Scenario({ onNext }: { onNext: () => void }) {
         <div className="space-y-4">
           <div className="border-l-2 border-primary/60 pl-3 sm:pl-4">
             <h3 className="text-sm font-semibold sm:text-base">{SCENARIO.title}</h3>
-            <p className="mt-2 text-xs leading-relaxed text-muted-foreground sm:text-sm">{SCENARIO.summary}</p>
+            <p className="mt-2 text-xs leading-relaxed text-muted-foreground sm:text-sm">
+              {SCENARIO.summary}
+            </p>
           </div>
 
           <div className="flex flex-col gap-2">
@@ -453,7 +457,8 @@ function TicketStage({ onNext }: { onNext: () => void }) {
             <p className="flex items-center gap-2 text-xs text-success">
               <CheckCircle2 className="size-3.5" />
               <span>
-                <strong>Ticket {TENANT.ticket} created</strong> · triaged P1 · routing to an FDE sub-agent
+                <strong>Ticket {TENANT.ticket} created</strong> · triaged P1 · routing to an FDE
+                sub-agent
               </span>
             </p>
             <p className="mt-1.5 text-[11px] text-muted-foreground">
@@ -475,7 +480,10 @@ function AssignStage({ onNext }: { onNext: () => void }) {
       right={<Pill tone="primary">agent-c0fa10e0</Pill>}
     >
       <div className="space-y-3">
-        <GmailAssignment onJoin={onNext} joinButtonProps={{ ...({ "data-tour": "assign-join-btn" } as any) }} />
+        <GmailAssignment
+          onJoin={onNext}
+          joinButtonProps={{ ...({ "data-tour": "assign-join-btn" } as any) }}
+        />
       </div>
     </StageFrame>
   );
@@ -550,11 +558,7 @@ function Report({ onRestart }: { onRestart: () => void }) {
               </ul>
             </div>
 
-            <Button
-              onClick={onRestart}
-              variant="outline"
-              className="w-full gap-2"
-            >
+            <Button onClick={onRestart} variant="outline" className="w-full gap-2">
               <RotateCcw className="size-3.5" /> Run the demo again
             </Button>
           </div>

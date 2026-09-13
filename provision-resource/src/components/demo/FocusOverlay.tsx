@@ -63,21 +63,17 @@ export function FocusOverlay({
   if (!visible) return null;
 
   return (
-    <div
-      ref={overlayRef}
-      className="fixed inset-0 z-50 focus-overlay-in"
-      onClick={onDismiss}
-    >
+    <div ref={overlayRef} className="fixed inset-0 z-50 focus-overlay-in" onClick={onDismiss}>
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300" />
-      
-      <div
-        className="absolute spotlight-in"
-        style={spotlightStyle}
-      >
+
+      <div className="absolute spotlight-in" style={spotlightStyle}>
         <div className="absolute inset-0 rounded-xl border-2 border-primary/80 highlight-glow" />
-        <div className="absolute inset-0 rounded-xl bg-transparent" style={{
-          boxShadow: "0 0 0 9999px rgba(0, 0, 0, 0.6)",
-        }} />
+        <div
+          className="absolute inset-0 rounded-xl bg-transparent"
+          style={{
+            boxShadow: "0 0 0 9999px rgba(0, 0, 0, 0.6)",
+          }}
+        />
       </div>
 
       {message && (
